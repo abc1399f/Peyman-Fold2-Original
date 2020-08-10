@@ -54,7 +54,7 @@ print('Cuda is available?', cuda_yes)
 device = torch.device("cuda:0" if cuda_yes else "cpu")
 print('Device:', device)
 
-data_dir = os.path.join( '/content/Arman-Fold2-Original/data/Arman-Fold2-Original/')
+data_dir = os.path.join( '/content/Peyman-Fold2-Original/data/Peyman-Fold2-Original/')
 # "Whether to run training."
 do_train = True
 # "Whether to run eval on the dev set."
@@ -74,7 +74,7 @@ weight_decay_crf_fc = 5e-6 #0.005
 total_train_epochs = 20
 gradient_accumulation_steps = 1
 warmup_proportion = 0.1
-output_dir = '/content/Arman-Fold2-Original/output/'
+output_dir = '/content/Peyman-Fold2-Original/output/'
 bert_model_scale = 'bert-base-multilingual-cased'
 do_lower_case = False
 # eval_batch_size = 8
