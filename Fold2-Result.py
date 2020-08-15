@@ -54,7 +54,7 @@ print('Cuda is available?', cuda_yes)
 device = torch.device("cuda:0" if cuda_yes else "cpu")
 print('Device:', device)
 
-data_dir = os.path.join( '/content/Peyman-Fold2-Original/data/Peyman-Fold2-Original/')
+data_dir = os.path.join( './content/Peyman-Fold2-Original/data/Peyman-Fold2-Original/')
 # "Whether to run training."
 do_train = True
 # "Whether to run eval on the dev set."
@@ -182,10 +182,11 @@ class CoNLLDataProcessor(DataProcessor):
     '''
 
     def __init__(self):
-        self._label_types = [ 'X', '[CLS]', '[SEP]', 'O', 'I_LOC', 'B_LOC', 'B_PER', 'I_PER', 'I_ORG', 'B_ORG','I_TIM','B_TIM', 'B_DAT', 'I_DAT', 'B_MON', 'I_MON', 'B_PCT', 'I_PCT']
+        self._label_types = [ 'X', '[CLS]', '[SEP]', 'O', 'B_LOC', 'I_LOC', 'B_PER', 'I_PER', 'B_ORG', 'I_ORG','B_TIM','I_TIM', 'B_DAT', 'I_DAT', 'B_MON', 'I_MON', 'B_PCT', 'I_PCT']
         self._num_labels = len(self._label_types)
         self._label_map = {label: i for i,
                            label in enumerate(self._label_types)}
+
 
     def get_train_examples(self, data_dir):
         return self._create_examples(
@@ -350,44 +351,65 @@ def f1_score_report(y_true, y_pred, _id):
     
 def report(y_true, y_pred):
     '''
-    list= [ 'X', '[CLS]', '[SEP]', 'O', 'I-LOC', 'B-PER', 'I-PER', 'I-ORG', 'I-TIM', 'B-TIM','I-DAT','B-DAT', 'B-LOC', 'B-ORG', 'B-MON', 'I-MON', 'B-PCT', 'I-PCT']
+    list= [ 'X', '[CLS]', '[SEP]', 'O', 'B_LOC', 'I_LOC', 'B_PER', 'I_PER', 'B_ORG', 'I_ORG','B_TIM','I_TIM', 'B_DAT', 'I_DAT', 'B_MON', 'I_MON', 'B_PCT', 'I_PCT']
+        self._num_labels = len(self._label_types)
     '''
+    
     p, r, f= f1_score_report(y_true, y_pred, 4)
-    print("precision, recall, F1 for I-loc", p, r, f)
-    
-    p, r, f= f1_score_report(y_true, y_pred, 12)
-    print("precision, recall, F1 for B-loc", p, r, f)     
-    
+    print("precision, recall, F1 for B_LOC", p, r, f)
+
+
     p, r, f= f1_score_report(y_true, y_pred, 5)
-    print("precision, recall, F1 for B-pers", p, r, f)
-    
+    print("precision, recall, F1 for I_LOC", p, r, f)     
+
+        
     p, r, f= f1_score_report(y_true, y_pred, 6)
-    print("precision, recall, F1 for I-pers", p, r, f)
+    print("precision, recall, F1 for B_PER", p, r, f)
+
     
     p, r, f= f1_score_report(y_true, y_pred, 7)
-    print("precision, recall, F1 for I-org", p, r, f)
-    
-    p, r, f= f1_score_report(y_true, y_pred, 13)
-    print("precision, recall, F1 for B-org", p, r, f)
+    print("precision, recall, F1 for I_PER", p, r, f)
+
     
     p, r, f= f1_score_report(y_true, y_pred, 8)
-    print("precision, recall, F1 for I-pro", p, r, f)
+    print("precision, recall, F1 for B_ORG", p, r, f)
+
     
     p, r, f= f1_score_report(y_true, y_pred, 9)
-    print("precision, recall, F1 for B-pro", p, r, f) 
+    print("precision, recall, F1 for I_ORG", p, r, f)
+
     
     p, r, f= f1_score_report(y_true, y_pred, 10)
-    print("precision, recall, F1 for I-fac", p, r, f)
+    print("precision, recall, F1 for B_TIM", p, r, f)
+
     
     p, r, f= f1_score_report(y_true, y_pred, 11)
-    print("precision, recall, F1 for B-fac", p, r, f)   
+    print("precision, recall, F1 for I_TIM", p, r, f) 
+
+    
+    p, r, f= f1_score_report(y_true, y_pred, 12)
+    print("precision, recall, F1 for B_DAT", p, r, f)
+
+    
+    p, r, f= f1_score_report(y_true, y_pred, 13)
+    print("precision, recall, F1 for I_DAT", p, r, f)   
+
  
        
     p, r, f= f1_score_report(y_true, y_pred, 14)
-    print("precision, recall, F1 for B-event", p, r, f)   
+    print("precision, recall, F1 for B_MON", p, r, f)   
+
     
     p, r, f= f1_score_report(y_true, y_pred, 15)
-    print("precision, recall, F1 for I-event", p, r, f)  
+    print("precision, recall, F1 for I_MON", p, r, f)  
+    
+    
+    p, r, f= f1_score_report(y_true, y_pred, 16)
+    print("precision, recall, F1 for B_PCT", p, r, f)  
+    
+    
+    p, r, f= f1_score_report(y_true, y_pred, 17)
+    print("precision, recall, F1 for I_PCT", p, r, f)  
     
 def f1_score(y_true, y_pred):
     '''
@@ -419,7 +441,6 @@ def f1_score(y_true, y_pred):
             f1=1.0
         else:
             f1=0
-
     return precision, recall, f1
 
 #%%
@@ -860,7 +881,7 @@ def evaluate(model, predict_dataloader, batch_size, epoch_th, dataset_name):
     #print(all_preds)
     all_labels_convert=[]
     all_preds_convert=[]
-    #label_list = [ 'X', '[CLS]', '[SEP]', 'O', 'I-loc', 'B-pers', 'I-pers', 'I-org', 'I-pro', 'B-pro','I-fac','B-fac', 'B-loc', 'B-org', 'B-event', 'I-event']
+    #label_list =
     #label_map = {i : label for i, label in enumerate(label_list)}
     #for j in range (len(all_labels)):
      #   all_labels_convert.append(label_map[all_labels[j]])
@@ -872,7 +893,6 @@ def evaluate(model, predict_dataloader, batch_size, epoch_th, dataset_name):
     #print(all_preds_convert)
     #report = classification_report(all_labels_convert, all_preds_convert,digits=4)
     report(np.array(all_labels), np.array(all_preds))
-    
     end = time.time()
     print('Epoch:%d, Acc:%.2f, Precision: %.2f, Recall: %.2f, F1: %.2f on %s, Spend:%.3f minutes for evaluation' \
         % (epoch_th, 100.*test_acc, 100.*precision, 100.*recall, 100.*f1, dataset_name,(end-start)/60.0))
@@ -913,7 +933,7 @@ for epoch in range(start_epoch, total_train_epochs):
             optimizer.zero_grad()
             global_step_th += 1
             
-        print("Epoch:{}-{}/{}, Negative loglikelihood: {} ".format(epoch, step, len(train_dataloader), neg_log_likelihood.item()))
+        #print("Epoch:{}-{}/{}, Negative loglikelihood: {} ".format(epoch, step, len(train_dataloader), neg_log_likelihood.item()))
     
     print('--------------------------------------------------------------')
     print("Epoch:{} completed, Total training's Loss: {}, Spend: {}m".format(epoch, tr_loss, (time.time() - train_start)/60.0))
